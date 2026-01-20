@@ -30,9 +30,7 @@ function updateDependencies {
 cd packages/build                && updateDependencies && cd ../../ &&
 cd packages/extension            && updateDependencies && cd ../../ &&
 cd packages/e2e                  && updateDependencies && cd ../../ &&
-cd packages/integration          && updateDependencies && cd ../../ &&
-cd packages/font-preview-worker && updateDependencies && cd ../../ &&
-cd packages/sample-files         && updateDependencies && cd ../../ &&
+cd packages/font-preview-worker  && updateDependencies && cd ../../ &&
 
 echo "Great Success!"
 
