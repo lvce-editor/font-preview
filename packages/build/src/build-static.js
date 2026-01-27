@@ -37,9 +37,6 @@ extensionJson.webViews[0].remotePath = `${pathPrefix}/${commitHash}/extensions/$
 await writeFile(webViewsPath, JSON.stringify(extensionJson.webViews, null, 2) + '\n')
 
 await rm(join(root, 'dist', commitHash, 'playground'), { recursive: true, force: true })
-await cp(join(root, 'packages', 'sample-files', 'files'), join(root, 'dist', commitHash, 'playground'), {
-  recursive: true,
-})
 
 const dirents = await readdir(join(root, 'dist', commitHash, 'playground'))
 const fileMap = dirents.map((dirent) => `/playground/${dirent}`)
