@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/no-global-object-property-assignment */
+
 import { beforeAll, expect, test } from '@jest/globals'
 import * as StringifyDomMatrix from '../src/parts/StringifyDomMatrix/StringifyDomMatrix.js'
 

@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/no-global-object-property-assignment, sonarjs/no-identical-functions */
+
 import { beforeAll, expect, test } from '@jest/globals'
 import * as Create from '../src/parts/Create/Create.ts'
 import * as HandlePointerUp from '../src/parts/HandlePointerUp/HandlePointerUp.ts'

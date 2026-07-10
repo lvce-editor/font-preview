@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/no-global-object-property-assignment, sonarjs/no-identical-functions */
+
 import { beforeAll, expect, test } from '@jest/globals'
 import * as ParseDomMatrix from '../src/parts/ParseDomMatrix/ParseDomMatrix.js'
 
