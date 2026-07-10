@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/no-global-object-property-assignment, sonarjs/no-identical-functions */
+
 import { beforeAll, expect, test } from '@jest/globals'
 import * as DomMatrix from '../src/parts/DomMatrix/DomMatrix.js'
 
@@ -102,25 +104,25 @@ test('zoomInto', () => {
 test('zoomInto - twice', () => {
   const domMatrix = DomMatrix.create([1.13, 0, 0, 1.13, 0, 0])
   const newDomMatrix = DomMatrix.zoomInto(domMatrix, 1.13, 0, 0)
-  expect(newDomMatrix).toEqual(DomMatrix.create([1.276_899_999_999_999_7, 0, 0, 1.276_899_999_999_999_7, 0, 0]))
+  expect(newDomMatrix).toEqual(DomMatrix.create([1.2768999999999997, 0, 0, 1.2768999999999997, 0, 0]))
 })
 
 test('zoomInto - top left - should move focus to bottom right', () => {
   const domMatrix = DomMatrix.create([1, 0, 0, 1, 0, 0])
   const newDomMatrix = DomMatrix.zoomInto(domMatrix, 1.13, 14, 11)
-  expect(newDomMatrix).toEqual(DomMatrix.create([1.13, 0, 0, 1.13, -1.819_999_999_999_998_5, -1.429_999_999_999_999_7]))
+  expect(newDomMatrix).toEqual(DomMatrix.create([1.13, 0, 0, 1.13, -1.8199999999999985, -1.4299999999999997]))
 })
 
 test('zoomInto - bottom right - should move focus to top left', () => {
   const domMatrix = DomMatrix.create([1, 0, 0, 1, 0, 0])
   const newDomMatrix = DomMatrix.zoomInto(domMatrix, 1.13, 100, 100)
-  expect(newDomMatrix).toEqual(DomMatrix.create([1.13, 0, 0, 1.13, -12.999_999_999_999_986, -12.999_999_999_999_986]))
+  expect(newDomMatrix).toEqual(DomMatrix.create([1.13, 0, 0, 1.13, -12.999999999999986, -12.999999999999986]))
 })
 
 test('toString', () => {
   const domMatrix = DomMatrix.create([1, 0, 0, 1, 0, 0])
-  const domMatruxString = DomMatrix.toString(domMatrix)
-  expect(domMatruxString).toBe('matrix(1, 0, 0, 1, 0, 0)')
+  const domMatrixString = DomMatrix.toString(domMatrix)
+  expect(domMatrixString).toBe('matrix(1, 0, 0, 1, 0, 0)')
 })
 
 test('move - right', () => {

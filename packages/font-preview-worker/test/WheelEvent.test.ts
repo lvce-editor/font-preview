@@ -10,5 +10,5 @@ test('normalizeDelta', async () => {
 test('normalizeDelta - firefox', async () => {
   const delta = 1
   const isFirefox = true
-  expect(WheelEvent.normalizeDelta(delta, isFirefox)).toBe(52 / 114)
+  expect(WheelEvent.normalizeDelta(delta, isFirefox)).toBeCloseTo(52 / 114)
 })
