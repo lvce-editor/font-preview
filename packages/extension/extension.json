@@ -2,38 +2,21 @@
   "id": "builtin.font-preview",
   "name": "Font Preview",
   "description": "Font Preview",
+  "repository": "https://github.com/lvce-editor/font-preview",
   "browser": "dist/fontPreviewMain.js",
-  "activation": ["onWebView:builtin.font-preview"],
+  "isolated": true,
+  "workerName": "Font Preview Extension Worker",
+  "activation": ["onView:builtin.font-preview"],
   "languages": [],
-  "rpc": [
-    {
-      "id": "builtin.font-preview.font-preview-worker",
-      "type": "web-worker",
-      "name": "Font Preview Worker",
-      "url": "../font-preview-worker/dist/fontPreviewWorkerMain.js",
-      "contentSecurityPolicy": ["default-src 'none'"]
-    }
-  ],
-  "webViews": [
+  "views": [
     {
       "id": "builtin.font-preview",
-      "rpc": "builtin.font-preview.font-preview-worker",
+      "title": "Font Preview",
+      "kind": "virtualDom",
+      "type": "preview",
+      "css": "media/index.css",
       "selector": [".ttf", ".woff2"],
-      "contentSecurityPolicy": ["default-src 'none'", "script-src 'self'", "style-src 'self'", "img-src 'self' blob:"],
-      "elements": [
-        {
-          "type": "title",
-          "value": "Font Preview"
-        },
-        {
-          "type": "script",
-          "path": "media/index.js"
-        },
-        {
-          "type": "css",
-          "path": "media/index.css"
-        }
-      ]
+      "showSideBarHeader": false
     }
   ]
 }

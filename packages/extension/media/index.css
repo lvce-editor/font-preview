@@ -1,28 +1,41 @@
-:root {
-  --AppBackground: #1e2324;
-}
-
-html,
-body,
-.App {
+.FontPreview {
   width: 100%;
   height: 100%;
   contain: strict;
   margin: 0;
-  background: var(--AppBackground);
+  overflow: hidden;
+  background: var(--MainBackground, #1e2324);
+  color: var(--MainForeground, #cccccc);
+  touch-action: none;
 }
 
-.ImageContent {
+.FontPreviewContent {
+  box-sizing: border-box;
   width: 100%;
-  height: 100%;
-  contain: strict;
+  min-height: 100%;
+  padding: 48px;
+  transform-origin: center;
 }
 
-.ImageElement {
-  max-width: 100%;
-  max-height: 100%;
+.FontPreviewSample {
+  margin: 0 0 24px;
+  font-family: 'Lvce Font Preview', sans-serif;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
-.Dragging {
+.FontPreviewSampleLarge {
+  font-size: 48px;
+}
+
+.FontPreviewSampleMedium {
+  font-size: 32px;
+}
+
+.FontPreviewSampleSmall {
+  font-size: 20px;
+}
+
+.FontPreviewDragging {
   cursor: grabbing;
 }

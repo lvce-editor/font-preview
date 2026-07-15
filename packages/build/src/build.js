@@ -1,10 +1,9 @@
-import { packageExtension, bundleJs, replace } from '@lvce-editor/package-extension'
+import { packageExtension, bundleJs } from '@lvce-editor/package-extension'
 import fs, { readFileSync } from 'node:fs'
 import path, { join } from 'node:path'
 import { root } from './root.js'
 
 const extension = path.join(root, 'packages', 'extension')
-const mediaPreviewWorker = path.join(root, 'packages', 'font-preview-worker')
 
 fs.rmSync(join(root, 'dist'), { recursive: true, force: true })
 
@@ -27,27 +26,7 @@ fs.cpSync(join(extension, 'media'), join(root, 'dist', 'media'), {
   recursive: true,
 })
 
-fs.cpSync(join(mediaPreviewWorker, 'src'), join(root, 'dist', 'font-preview-worker', 'src'), {
-  recursive: true,
-})
-
-await replace({
-  path: join(root, 'dist', 'extension.json'),
-  occurrence: 'dist/fontPreviewMain.js',
-  replacement: 'dist/fontPreviewMain.js',
-})
-await replace({
-  path: join(root, 'dist', 'extension.json'),
-  occurrence: '../font-preview-worker/dist/fontPreviewWorkerMain.js',
-  replacement: './font-preview-worker/dist/fontPreviewWorkerMain.js',
-})
-
-await bundleJs(
-  join(root, 'dist', 'font-preview-worker', 'src', 'fontPreviewWorkerMain.ts'),
-  join(root, 'dist', 'font-preview-worker', 'dist', 'fontPreviewWorkerMain.js'),
-)
-
-await bundleJs(join(root, 'dist', 'src', 'fontPreviewMain.ts'), join(root, 'dist', 'dist', 'fontPreviewMain.js'))
+await bundleJs(join(extension, 'src', 'fontPreviewMain.ts'), join(root, 'dist', 'dist', 'fontPreviewMain.js'))
 
 await packageExtension({
   highestCompression: true,
