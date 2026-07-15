@@ -20,25 +20,6 @@ const main = () => {
       '--external:node:worker_threads',
       '--bundle',
       '--watch',
-      'packages/font-preview-worker/src/fontPreviewWorkerMain.ts',
-      '--outfile=packages/font-preview-worker/dist/fontPreviewWorkerMain.js',
-    ],
-    {
-      cwd: root,
-      stdio: 'inherit',
-    },
-  )
-  const child3 = spawn(
-    esbuildPath,
-    [
-      '--format=esm',
-      '--bundle',
-      '--external:node:buffer',
-      '--external:electron',
-      '--external:ws',
-      '--external:node:worker_threads',
-      '--bundle',
-      '--watch',
       'packages/extension/src/fontPreviewMain.ts',
       '--outfile=packages/extension/dist/fontPreviewMain.js',
     ],

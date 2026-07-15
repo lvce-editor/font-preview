@@ -1,7 +1,6 @@
-import { replace } from '@lvce-editor/package-extension'
 import { exportStatic } from '@lvce-editor/shared-process'
-import { cp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
-import path, { join } from 'node:path'
+import { cp } from 'node:fs/promises'
+import path from 'node:path'
 import { root } from './root.js'
 
 await import('./build.js')
@@ -13,6 +12,7 @@ await cp(path.join(root, 'dist'), path.join(root, 'dist2'), {
 
 const { commitHash } = await exportStatic({
   extensionPath: 'packages/extension',
+  testPath: 'packages/e2e',
   root,
 })
 
@@ -20,18 +20,3 @@ await cp(path.join(root, 'dist2'), path.join(root, 'dist', commitHash, 'extensio
   recursive: true,
   force: true,
 })
-
-await replace({
-  path: path.join(root, 'dist', commitHash, 'config', 'webExtensions.json'),
-  occurrence: 'src/fontPreviewMain.ts',
-  replacement: 'dist/fontPreviewMain.js',
-})
-
-const pathPrefix = '/font-preview'
-const webViewsPath = join(root, 'dist', commitHash, 'config', 'webViews.json')
-const extensionJsonPath = join(root, 'dist', commitHash, 'extensions', 'builtin.font-preview', 'extension.json')
-const extensionJsonContent = await readFile(extensionJsonPath, 'utf8')
-const extensionJson = JSON.parse(extensionJsonContent)
-extensionJson.webViews[0].path = `${commitHash}/extensions/${extensionJson.id}/${extensionJson.webViews[0].path}`
-extensionJson.webViews[0].remotePath = `${pathPrefix}/${commitHash}/extensions/${extensionJson.id}`
-await writeFile(webViewsPath, JSON.stringify(extensionJson.webViews, null, 2) + '\n')
