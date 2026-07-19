@@ -1,4 +1,4 @@
-import { text, VirtualDomElements, type VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
+import { mergeClassNames, text, VirtualDomElements, type VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
 import type { FontPreviewState } from '../FontPreviewState/FontPreviewState.ts'
 import { stringify } from '../DomMatrix/DomMatrix.ts'
 
@@ -30,7 +30,7 @@ const flatten = (tree: TreeNode): readonly VirtualDomNode[] => {
 }
 
 const sample = (className: string, value: string): TreeNode => {
-  return node(VirtualDomElements.P, { className: `FontPreviewSample ${className}` }, [textNode(value)])
+  return node(VirtualDomElements.P, { className: mergeClassNames('FontPreviewSample', className) }, [textNode(value)])
 }
 
 const getFontFaceCss = (url: string): string => {
@@ -38,8 +38,9 @@ const getFontFaceCss = (url: string): string => {
 }
 
 export const render = (state: Readonly<FontPreviewState>): readonly VirtualDomNode[] => {
-  const className = state.pointerDown ? 'FontPreview FontPreviewDragging' : 'FontPreview'
-  const fontFaceText = textNode(getFontFaceCss(state.url))
+  const { domMatrix, pointerDown, url } = state
+  const className = pointerDown ? 'FontPreview FontPreviewDragging' : 'FontPreview'
+  const fontFaceText = textNode(getFontFaceCss(url))
   const fontFace = node(VirtualDomElements.Style, {}, [fontFaceText])
   const samples = [
     sample('FontPreviewSampleLarge', 'The quick brown fox jumps over the lazy dog.'),
@@ -51,7 +52,7 @@ export const render = (state: Readonly<FontPreviewState>): readonly VirtualDomNo
     VirtualDomElements.Div,
     {
       className: 'FontPreviewContent',
-      style: `transform: ${stringify(state.domMatrix)}`,
+      style: `transform: ${stringify(domMatrix)}`,
     },
     samples,
   )

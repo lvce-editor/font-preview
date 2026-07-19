@@ -60,10 +60,11 @@ export const createInstance = (context?: ViewContext): FontPreviewViewInstance =
           }
           break
         case 'pointermove': {
-          if (!state.pointerDown) {
+          const { domMatrix: currentDomMatrix, pointerDown, pointerOffsetX, pointerOffsetY } = state
+          if (!pointerDown) {
             break
           }
-          const domMatrix = DomMatrix.move(state.domMatrix, x - state.pointerOffsetX, y - state.pointerOffsetY)
+          const domMatrix = DomMatrix.move(currentDomMatrix, x - pointerOffsetX, y - pointerOffsetY)
           state = {
             ...state,
             domMatrix,
@@ -79,6 +80,7 @@ export const createInstance = (context?: ViewContext): FontPreviewViewInstance =
           }
           break
         case 'wheel': {
+          const { domMatrix } = state
           const deltaY = x
           if (deltaY === 0) {
             break
@@ -86,7 +88,7 @@ export const createInstance = (context?: ViewContext): FontPreviewViewInstance =
           const zoomFactor = deltaY < 0 ? 1 + Math.abs(deltaY) / 200 : 1 / (1 + Math.abs(deltaY) / 200)
           state = {
             ...state,
-            domMatrix: DomMatrix.zoomInto(state.domMatrix, zoomFactor, 0, 0),
+            domMatrix: DomMatrix.zoomInto(domMatrix, zoomFactor, 0, 0),
           }
           break
         }
@@ -96,8 +98,9 @@ export const createInstance = (context?: ViewContext): FontPreviewViewInstance =
       return render(state)
     },
     saveState(): SavedState {
+      const { domMatrix } = state
       return {
-        domMatrix: DomMatrix.stringify(state.domMatrix),
+        domMatrix: DomMatrix.stringify(domMatrix),
         uri,
       }
     },
