@@ -16,20 +16,14 @@ fi
 
 function updateDependencies {
   echo "updating dependencies..."
-  OUTPUT=`ncu -u -x @types/node -x lerna -x typescript`
-  SUB='All dependencies match the latest package versions'
-  if [[ "$OUTPUT" == *"$SUB"* ]]; then
-    echo "$OUTPUT"
-  else
-    rm -rf node_modules package-lock.json dist
-    npm install
-  fi
+  ncu -u -x @types/node -x typescript
 }
 
-                                    updateDependencies &&
-cd packages/build                && updateDependencies && cd ../../ &&
-cd packages/extension            && updateDependencies && cd ../../ &&
-cd packages/e2e                  && updateDependencies && cd ../../ &&
+updateDependencies &&
+for packagePath in packages/*; do
+  (cd "$packagePath" && updateDependencies) || exit 1
+done
+npm install &&
 
 echo "Great Success!"
 
