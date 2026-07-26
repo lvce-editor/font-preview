@@ -4,6 +4,7 @@
   "description": "Font Preview",
   "repository": "https://github.com/lvce-editor/font-preview",
   "browser": "dist/fontPreviewMain.js",
+  "contentSecurityPolicy": ["default-src 'none'", "script-src 'self'"],
   "isolated": true,
   "workerName": "Font Preview Extension Worker",
   "activation": ["onView:builtin.font-preview"],

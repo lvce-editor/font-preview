@@ -53,3 +53,23 @@ test('handles pointer and wheel events without a separate worker', () => {
     'transform: matrix(1.1, 0, 0, 1.1, 11, 17.6)',
   )
 })
+
+test('handles pointer and wheel events through dedicated view handlers', () => {
+  const instance = createInstance(context)
+
+  instance.handleFontPreviewPointerDown(10, 20)
+  expect(instance.render()[0].className).toBe('FontPreview FontPreviewDragging')
+
+  instance.handleFontPreviewPointerMove(15, 30)
+  expect(instance.render().find((node) => node.className === 'FontPreviewContent')?.style).toBe(
+    'transform: matrix(1, 0, 0, 1, 10, 16)',
+  )
+
+  instance.handleFontPreviewPointerUp(15, 30)
+  expect(instance.render()[0].className).toBe('FontPreview')
+
+  instance.handleFontPreviewWheel(-20, 0)
+  expect(instance.render().find((node) => node.className === 'FontPreviewContent')?.style).toBe(
+    'transform: matrix(1.1, 0, 0, 1.1, 11, 17.6)',
+  )
+})
