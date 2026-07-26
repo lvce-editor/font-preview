@@ -15,6 +15,10 @@ interface SavedState {
 }
 
 export interface FontPreviewViewInstance extends VirtualDomViewInstance {
+  readonly handleFontPreviewPointerDown: (x: unknown, y: unknown) => void
+  readonly handleFontPreviewPointerMove: (x: unknown, y: unknown) => void
+  readonly handleFontPreviewPointerUp: (x: unknown, y: unknown) => void
+  readonly handleFontPreviewWheel: (deltaY: unknown, deltaMode: unknown) => void
   readonly render: () => readonly VirtualDomNode[]
 }
 
@@ -43,6 +47,50 @@ export const createInstance = (context?: ViewContext): FontPreviewViewInstance =
     url: getRemoteUrl(uri),
   }
 
+  const handlePointerDown = (x: unknown, y: unknown): void => {
+    state = {
+      ...state,
+      pointerDown: true,
+      pointerOffsetX: getNumber(x),
+      pointerOffsetY: getNumber(y),
+    }
+  }
+
+  const handlePointerMove = (x: unknown, y: unknown): void => {
+    const { domMatrix: currentDomMatrix, pointerDown, pointerOffsetX, pointerOffsetY } = state
+    if (!pointerDown) {
+      return
+    }
+    const pointerX = getNumber(x)
+    const pointerY = getNumber(y)
+    state = {
+      ...state,
+      domMatrix: DomMatrix.move(currentDomMatrix, pointerX - pointerOffsetX, pointerY - pointerOffsetY),
+      pointerOffsetX: pointerX,
+      pointerOffsetY: pointerY,
+    }
+  }
+
+  const handlePointerUp = (_x: unknown, _y: unknown): void => {
+    state = {
+      ...state,
+      pointerDown: false,
+    }
+  }
+
+  const handleWheel = (deltaYValue: unknown, _deltaMode: unknown): void => {
+    const deltaY = getNumber(deltaYValue)
+    if (deltaY === 0) {
+      return
+    }
+    const { domMatrix } = state
+    const zoomFactor = deltaY < 0 ? 1 + Math.abs(deltaY) / 200 : 1 / (1 + Math.abs(deltaY) / 200)
+    state = {
+      ...state,
+      domMatrix: DomMatrix.zoomInto(domMatrix, zoomFactor, 0, 0),
+    }
+  }
+
   return {
     handleEvent(event: Readonly<ViewEvent>): void {
       if (event.type !== 'contextmenu') {
@@ -52,48 +100,23 @@ export const createInstance = (context?: ViewContext): FontPreviewViewInstance =
       const y = getNumber(event.y)
       switch (event.name) {
         case 'pointerdown':
-          state = {
-            ...state,
-            pointerDown: true,
-            pointerOffsetX: x,
-            pointerOffsetY: y,
-          }
+          handlePointerDown(x, y)
           break
-        case 'pointermove': {
-          const { domMatrix: currentDomMatrix, pointerDown, pointerOffsetX, pointerOffsetY } = state
-          if (!pointerDown) {
-            break
-          }
-          const domMatrix = DomMatrix.move(currentDomMatrix, x - pointerOffsetX, y - pointerOffsetY)
-          state = {
-            ...state,
-            domMatrix,
-            pointerOffsetX: x,
-            pointerOffsetY: y,
-          }
+        case 'pointermove':
+          handlePointerMove(x, y)
           break
-        }
         case 'pointerup':
-          state = {
-            ...state,
-            pointerDown: false,
-          }
+          handlePointerUp(x, y)
           break
-        case 'wheel': {
-          const { domMatrix } = state
-          const deltaY = x
-          if (deltaY === 0) {
-            break
-          }
-          const zoomFactor = deltaY < 0 ? 1 + Math.abs(deltaY) / 200 : 1 / (1 + Math.abs(deltaY) / 200)
-          state = {
-            ...state,
-            domMatrix: DomMatrix.zoomInto(domMatrix, zoomFactor, 0, 0),
-          }
+        case 'wheel':
+          handleWheel(x, y)
           break
-        }
       }
     },
+    handleFontPreviewPointerDown: handlePointerDown,
+    handleFontPreviewPointerMove: handlePointerMove,
+    handleFontPreviewPointerUp: handlePointerUp,
+    handleFontPreviewWheel: handleWheel,
     render(): readonly VirtualDomNode[] {
       return render(state)
     },

@@ -8,23 +8,23 @@ export const view: View<FontPreviewViewInstance> = {
   eventListeners: [
     {
       name: 'handleFontPreviewPointerDown',
-      params: ['handleContextMenu', 'pointerdown', 'event.clientX', 'event.clientY'],
+      params: ['handleFontPreviewPointerDown', 'event.clientX', 'event.clientY'],
       preventDefault: true,
       trackPointerEvents: ['handleFontPreviewPointerMove', 'handleFontPreviewPointerUp'],
     },
     {
       name: 'handleFontPreviewPointerMove',
-      params: ['handleContextMenu', 'pointermove', 'event.clientX', 'event.clientY'],
+      params: ['handleFontPreviewPointerMove', 'event.clientX', 'event.clientY'],
       preventDefault: true,
     },
     {
       name: 'handleFontPreviewPointerUp',
-      params: ['handleContextMenu', 'pointerup', 'event.clientX', 'event.clientY'],
+      params: ['handleFontPreviewPointerUp', 'event.clientX', 'event.clientY'],
       preventDefault: true,
     },
     {
       name: 'handleFontPreviewWheel',
-      params: ['handleContextMenu', 'wheel', 'event.deltaY', 'event.deltaMode'],
+      params: ['handleFontPreviewWheel', 'event.deltaY', 'event.deltaMode'],
       preventDefault: true,
     },
   ],

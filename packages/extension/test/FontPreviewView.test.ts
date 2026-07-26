@@ -9,4 +9,10 @@ test('registers a virtual dom font preview view', () => {
     title: 'Font Preview',
   })
   expect(view.eventListeners).toHaveLength(4)
+  expect(view.eventListeners?.map((listener) => listener.params?.[0])).toEqual([
+    'handleFontPreviewPointerDown',
+    'handleFontPreviewPointerMove',
+    'handleFontPreviewPointerUp',
+    'handleFontPreviewWheel',
+  ])
 })
