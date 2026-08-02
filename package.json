@@ -23,7 +23,7 @@
     "printWidth": 130
   },
   "devDependencies": {
-    "@lvce-editor/eslint-config": "^17.6.0",
+    "@lvce-editor/eslint-config": "^18.0.0",
     "@types/node": "^22.8.1",
     "eslint": "^10.8.0",
     "jest": "^30.4.2",
