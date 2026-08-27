@@ -2,7 +2,7 @@ import { spawn } from 'child_process'
 import { join } from 'path'
 import { root } from './root.js'
 
-const serverPath = join(root, 'packages', 'build', 'node_modules', '@lvce-editor', 'server', 'bin', 'server.js')
+const serverPath = join(root, 'node_modules', '@lvce-editor', 'server', 'bin', 'server.js')
 const esbuildPath = join(root, 'node_modules', '.bin', 'esbuild')
 
 const main = () => {
