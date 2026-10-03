@@ -8,7 +8,6 @@
   "isolated": true,
   "workerName": "Font Preview Extension Worker",
   "activation": ["onView:builtin.font-preview"],
-  "languages": [],
   "views": [
     {
       "id": "builtin.font-preview",
