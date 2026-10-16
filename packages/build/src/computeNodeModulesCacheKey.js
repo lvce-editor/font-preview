@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..', '..', '..')
 
 const locations = [
+  '.nvmrc',
   'package.json',
   'package-lock.json',
   '.github/workflows/pr.yml',
